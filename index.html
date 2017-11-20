@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title>SPARQL 1.1 Test Suite Report by TFT</title>
+    <script 
+     src='https://www.w3.org/Tools/respec/respec-w3c-common' 
+     class='remove'></script>
+    <script class='remove'>
+      var respecConfig = {
+        specStatus: "ED",
+        editors: [{
+          name: "Karima Rafes",
+          url: "http://bordercloud.com",
+        }],
+        processVersion: 2017,
+        edDraftURI: "https://github.com/BorderCloud/tft-reports",
+        shortName: "tft-reports"
+      };
+    </script>
+  </head>
+  <body>
+  
+	<section id='abstract'><h2 id="abstract-0">Abstract</h2>
+		<p>
+			This document defines the format of the tests in the SPARQL test suite and lists
+			test results from docker instances of RDF databases on GitHub that have evaluated by the tool TFT via Travis CI.
+		</p>
+	</section>
+
+    <section id="sotd" class="introductory"><h2 id="status-of-this-document">Status of This Document</h2>
+      <p>
+        This document is merely a <abbr title="World Wide Web Consortium">W3C</abbr>-internal  document. It
+        has no official standing of any kind and does not represent consensus of the <abbr title="World Wide Web Consortium">W3C</abbr>
+        Membership.
+      </p>
+  </section>
+
+	<section>
+		<h2>Namespace prefixes</h2>
+		<p>
+			In this document we will employ the following namespace prefixes:
+		</p>
+
+		<dl>
+			<dt><code>earl</code></dt>
+			<dd><code><a href="http://www.w3.org/ns/earl#">http://www.w3.org/ns/earl#</a></code></dd>
+		</dl>
+
+	</section>
+
+<section>
+	<h2>Test Cases Format and Process</h2>
+  
+  	<div class="issue" id="issue-A">
+			<div role="heading" class="issue-title marker" id="h-issue" aria-level="3">
+				<span>TODO A</span><span style="text-transform: none"></span>
+			</div>
+			<div class="">
+			  <p>
+			  changer cette partie
+			  </p>
+			</div>
+		</div>
+  
+	<section>
+		<h3>Manifest format</h3>
+  		<p>
+  			The tests are available in the folder structure starting at
+  			<a href="https://github.com/w3c/data-shapes/tree/gh-pages/data-shapes-test-suite/tests">tests</a>.
+    		Each folder contains one or more manifest files that describe the tests in that folder.
+    	</p> 
+		<p>
+			The manifest file is defined in RDF and is compatible with the manifest used by other W3c initiatives like 
+	         <a href="www.w3.org/2011/rdf-wg/wiki/RDF_Test_Suites">RDF 1.1</a> or
+	         <a href="http://www.w3.org/2001/sw/DataAccess/tests/r2">SPARQL</a>
+	     </p>
+         
+<pre data-lang="text/turtle">
+&lt;&gt; a mf:Manifest ;
+     rdfs:label "...Manifest label"
+     rdfs:comment "...Manifest comment" ;
+     dc:creator "...creator..."
+     mf:entries
+     (
+     ....list of ManifestEntries
+     ) .</pre>
+	<p>Each manifest entry is a single test which can be one of the following types:</p>
+		<ul>
+		<li><a href="#Validate">Validate RDF data</a>
+		</ul>
+	</section>
+
+	<section>
+		<h3 id="Validate">Validate RDF data</h3>
+		<p>
+			These tests verify that the validation of a given data graph against a given shapes graph produces
+			a specified validation report.
+			Both the data graph and the shapes graph may be identical.
+		</p>
+		<p>
+			Example:
+		</p>
+<pre data-lang="text/turtle">
+&lt;entry1&gt; a sht:Validate ;
+   mf:name "Validate simple RDF data with a simple shapes graph" ;
+   mf:action [
+        sht:shapesGraph &lt;example-shapes.ttl&gt; ; 
+        sht:dataGraph &lt;example-data.ttl&gt; ; 
+   ] ;
+   mf:result [
+        a sh:ValidationReport ;
+        sh:conforms true ;
+   ] ;
+   mf:status sht:proposed .
+</pre>
+		<p>
+			To perform the test, a validation engine must validate the data graph specified by <code>sht:dataGraph</code>
+			against the shapes graph specified by <code>sht:shapesGraph</code>.
+			The values of both must be relative URLs pointing at a Turtle file in the same directory as the test file itself.
+			It is also valid that either of these graphs point at the manifest graph itself, using the relative URL <code>&lt;&gt;</code>.
+		</p>
+		<p>
+			Implementations may report two levels of compliance:
+		</p>
+		<ul>
+			<li>
+				<dfn>partial compliance</dfn> means that an implementation is able to perform conformance checking only,
+				i.e. produces the same boolean value for <code>sh:conforms</code> as required by the expected report.
+			</li>
+			<li>
+				<dfn>full compliance</dfn> means that an implementation can produce a complete validation report
+				that can be compared with the expected validation report as described in the remainder of this section.
+			</li>
+		</ul>
+		<p>
+			For <a>full compliance</a>:
+			Let <code>R</code> be the blank node that is the value of <code>mf:result</code> of the <code>sht:Validate</code> test case
+			in the manifest graph.
+			Let <code>expected</code> be the graph that consists of all triples from the manifest graph that have <code>R</code> as subject
+			plus all triples that have all values of <code>sh:result</code> of <code>R</code> as their subject,
+			as well as any triples needed to correctly represent the <code>sh:resultPath</code>.
+		</p>
+		<p>
+			Let <code>actual</code> be the results graph produced by the validation, i.e. the validation report.
+			The test framework may post-process this results graph to ensure the following preconditions.
+			Before comparing the results graph with the <code>expected</code> results, the <code>actual</code> validation report
+			must not include any "nested" results, via <code>sh:details</code>.
+			The <code>actual</code> results also must not depend on subclass relationships, so that instances of subclasses of 
+			<code>sh:ValidationReport</code> and <code>sh:ValidationResult</code> must have these as their (only) <code>rdf:type</code> values.
+			Also, all instances of <code>sh:ValidationResult</code> and <code>sh:ValidationReport</code> must be blank nodes,
+			i.e. if the engine produces URIs then these need to be replaced with blank nodes.
+			Also, the blank node structures representing property paths via <code>sh:resultPath</code> must not be shared among
+			multiple results, i.e. they may need to be cloned prior to comparison.
+			Blank node structures representing property paths via <code>sh:resultPath</code> must not reuse the same path blank node
+			(as values of <code>sh:inversePath</code> etc) in multiple places - these need to be normalized before the comparison,
+			i.e. share blank node structures need to be cloned into new blank nodes.
+			Furthermore, only the following predicates are used by triples in the <code>expected</code> graph and therefore
+			any other triples need to be removed from the <code>actual</code> graph prior to comparison:
+		</p>
+		<ul>
+			<li><code>rdf:type sh:ValidationReport</code></li>
+			<li><code>sh:result</code></li>
+			<li><code>sh:conforms</code></li>
+			<li><code>rdf:type sh:ValidationResult</code></li>
+			<li><code>sh:focusNode</code></li>
+			<li><code>sh:resultPath</code> (including depending blank node structures)</li>
+			<li><code>sh:resultSeverity</code></li>
+			<li><code>sh:sourceConstraint</code></li>
+			<li><code>sh:sourceConstraintComponent</code></li>
+			<li><code>sh:sourceShape</code></li>
+			<li><code>sh:value</code></li>
+		</ul>
+		<p>
+			An exception is <code>sh:resultMessage</code>: As a general rule, all triples with <code>sh:resultMessage</code> as subject
+			need to be removed from the <code>actual</code> graph, except those with object <code>?object</code> for which
+			the <code>expected</code> graph contains a triple <code>?any sh:resultMessage ?object</code>.
+			This makes sure that certain tests can verify that <code>sh:resultMessage</code> has been correctly
+			populated from the <code>sh:message</code> triples in the shapes graph.
+		</p>
+		<p>
+			To pass <a>full compliance</a>, the <code>actual</code> validation report must be <a href="https://www.w3.org/TR/rdf11-concepts/#graph-isomorphism">isomorphic</a> to <code>expected</code>.
+			If the test case has <code>sht:Failure</code> as its value for <code>mf:result</code> then the test is passed if the validation reported a failure.
+			Alternatively, implementation may still report pass if they have manually checked that their validation reports satisfy the requirements specified by the SHACL specification.
+			The latter also applies to scenarios that are well-formed SHACL validation results according to [[!shacl]] while the
+			test framework has stricter expectations.  For example, not all implementation are required to produce <code>sh:sourceShape</code> triples.
+		</p>
+		<p>
+			In order to improve precision of comparing test results, blank nodes should be avoided as values
+			of <code>sh:sourceShape</code> and <code>sh:sourceConstraint</code>.
+		</p>
+	</section>
+	
+	<section>
+		<h3>Test Creation, Approval and Modification Process</h3>
+		<p>
+			Tests are maintained by members of the Working Group in the
+			<a href="https://github.com/w3c/data-shapes/tree/gh-pages/data-shapes-test-suite/tests">GitHub</a> repository.
+			Anyone, including non-members, can submit or suggest test cases via GitHub pull requests.
+			Submissions by other means may be rejected without response.
+			Test cases that have not been accepted by the Working Group yet must have <code>mf:status sht:proposed</code>.
+		</p>
+		<p>
+			At the chair's discretion, individual tests or groups of tests are put to the Working Group,
+			e.g. in the weekly telecon.
+			The Working Group has complete discretion to approve or reject tests.
+			Approved tests must have <code>mf:status sht:approved</code>, those that have been rejected
+			may get marked as <code>mf:status sht:rejected</code> or deleted from the main branch of the repository.
+			All approved tests must be reachable from the root manifest.mf file.
+		</p>
+		<p>
+			Editors may modify test cases, but SHOULD go through the WG process for non-trivial changes.
+		</p>
+		<p>
+			In addition to validation tests, we encourage users to submit examples of ill-formed shapes graphs.
+			These may be used in the future to collect syntax tests.
+		</p>
+	</section>
+	
+	<section>
+		<h3>Submitting Implementation Reports</h3>
+		<p>
+			Implementations listed here need to be submitted as a Turtle file in the format similar to the
+			<a href="reports/topbraid-shacl-earl.ttl">TopBraid SHACL API EARL Report</a>.
+			In a nutshell, we use [[EARL10-Schema]] to represent individual test results and metadata about the test subject.
+			To indicate <a>full compliance</a>, use <code>earl:passed</code> as value for <code>earl:outcome</code>.
+			To indicate <a>partial compliance</a> (i.e. can report <code>true</code> and <code>false</code>), use <code>sht:partial</code>.
+		</p>
+		<p>
+			The preferred way of submitting test reports is via a pull request into the <a href="https://github.com/w3c/data-shapes/tree/gh-pages/data-shapes-test-suite/reports">reports</a> folder
+			on GitHub.  Alternatively, send your Turtle file to the public comments mailing list.
+		</p>
+	</section>
+</section>
+	
+	<section>
+		<h2>Reports</h2>
+		<p>
+			This section summarizes the outcomes of test reports of SPARQL implementation in docker image hosted by GitHub.
+		</p>    
+    
+		<div class="issue" id="issue-1">
+			<div role="heading" class="issue-title marker" id="h-issue" aria-level="3">
+				<span>TODO 1</span><span style="text-transform: none"></span>
+			</div>
+			<div class="">
+			  <p>
+			  Faire une requête qui affiche le tableau des derniers logiciels testés :
+			  Software 			Homepage			 Tests Updated
+			  </p>
+			</div>
+		</div>
+    
+	</section>
+  
+  <section>
+		<h2>Tests summary</h2>
+    
+    <div class="issue" id="issue-2">
+			<div role="heading" class="issue-title marker" id="h-issue" aria-level="3">
+				<span>TODO 2</span><span style="text-transform: none"></span>
+			</div>
+			<div class="">
+			  <p>
+			  Faire une requête qui affiche les statistiques de chaque logiciel 
+			  Tests title	Link manifest		Software1(%) Software2(%) 
+			  </p>
+			</div>
+		</div>
+    
+				<div class="issue" id="issue-3">
+			<div role="heading" class="issue-title marker" id="h-issue" aria-level="3">
+				<span>TODO 3</span><span style="text-transform: none"></span>
+			</div>
+			<div class="">
+			  <p>
+			  Faire une requête qui affiche les statistiques de chaque logiciel 
+			  Tests title	Link manifest		Percent for all
+			  </p>
+			</div>
+		</div>
+   </section>
+   
+		<section>
+			<h2>Tests by Specifications</h2>
+      <section>
+				<h3>SPARQL 1.1 Query Language</h3>
+				<p>
+				
+				</p>
+			</section>			
+			<section>
+				<h3>SPARQL 1.1 Update</h3>
+				<p>
+				
+				</p>
+			</section>
+			<section>
+				<h3>SPARQL 1.1 Query Results CSV and TSV Formats</h3>
+				<p>
+				
+				</p>
+			</section>
+			<section>
+				<h3>SPARQL 1.1 Query Results JSON Format</h3>
+				<p>
+				
+				</p>
+			</section>
+			<section>
+				<h3>SPARQL 1.1 Federation Extensions</h3>
+				<p>
+				
+				</p>
+			</section>
+			<section>
+				<h3>SPARQL 1.1 Entailment Regimes</h3>
+				<p>
+				
+				</p>
+			</section>
+			<section>
+				<h3>SPARQL 1.1 Service Description</h3>
+				<p>
+				
+				</p>
+			</section>
+			<section>
+				<h3>SPARQL 1.1 Protocol</h3>
+				<p>
+				
+				</p>
+			</section>
+			<section>
+				<h3>SPARQL 1.1 Graph Store HTTP Protocol</h3>
+				<p>
+				
+				</p>
+			</section>
+		</section>
+	</section>
+
+<section class="appendix" id="issue-summary">
+  <!-- A list of issues will magically appear here -->
+</section>
+  </body>
+</html>
