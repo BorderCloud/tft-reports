@@ -84,6 +84,9 @@
 			</div>
 		</div>
   <p>
+
+
+<section>
 The
 <a href="http://www.w3.org/2009/sparql/wiki/">SPARQL Working Group</a> uses a test-driven process.&nbsp; The <a href="http://www.w3.org/2009/sparql/docs/tests">test area</a> is a 
 collection of the current test cases of the working group extending and updating the <a href="http://www.w3.org/2001/sw/DataAccess/tests/r2">testcases</a> of the <a href="http://www.w3.org/2001/sw/DataAccess/">Data Access Working Group</a>. </p>
@@ -113,7 +116,9 @@ href="data-sparql11/service-description/manifest.ttl">manifest of service descri
 
 
 </ul>
+</section>
 
+<section>
 <h4><a name="organization" id="organization"/>Organization</a></h4>
 <p>
 The test cases are organised in two directories</p>
@@ -129,6 +134,9 @@ The tests as-is shall constitute a test suite that the group will
 use to generate an implementation report for the SPARQL1.1 Query  and SPARQL1.1 Update languages.</p>
 <p><b>@@@ What about other tests, will we use the same structure for e.g. http-update, service-description tests, will we (a) have separate manifest(s) for entailment?</b></p>
 </p>
+</section>
+
+<section>
   <h4><a name="vocabularies" id="vocabularies"/>Manifest Vocabularies</a></h4>
 
   <p>The SPARQL1.1 test manifest files define five vocabularies to express
@@ -184,7 +192,9 @@ Tests are grouped (via their <tt>rdf:type</tt>) as:
 	<li>CSV Result Format tests (<tt>mf:CSVResultFormatTest</tt>)</li>
 	<li>SPARQL 1.1 Service Description tests (<tt>mf:ServiceDescriptionTest</tt>)</li>
 </ul>
+</section>
 
+<section>
   <h4><a name="filenames" id="filenames"/>File Names</a></h4>
   
  <p>Typically, in the test case suite, we use the following suffixes to indicate different file types:</p>
@@ -209,7 +219,9 @@ Tests are grouped (via their <tt>rdf:type</tt>) as:
 <p>@@@ Fix/check final URL for http://www.w3.org/TR/sparql11-results-json/!</p>
 
  <p>@@@ Will we update the SPARQL Query Results XML Format spec for SPARQL1.1?</p>
+</section>
 
+<section>
   <h4><a name="syntaxtests" id="syntaxtests"/>Syntax Tests</a></h4>
 
   <p>
@@ -232,7 +244,9 @@ the query string without error. A SPARQL implementation passes a
 <tt>mf:NegativeSyntaxTest</tt> if it raises an error while attempting to parse
 the query string.
 </p>
+</section>
 
+<section>
   <h4><a name="queryevaltests" id="queryevaltests"/>Query Evaluation Tests</a></h4>
 
   <p>Each query evaluation test has an <tt>mf:action</tt> and an
@@ -290,7 +304,9 @@ literal nodes. Note that testing whether two result sets are isomorphic is simpl
             qt:data   &lt;regex-data-01.n3&gt; ] ;
       mf:result  &lt;regex-result-002.n3&gt; .
 </pre>
+</section>
 
+<section>
   <h4><a name="csvtests" id="csvtests"/>CSV Result Format Tests</a></h4>
 
   <p>
@@ -335,7 +351,9 @@ http://example.org/s2,http://example.org/p2,2.2
 
 
 
+</section>
 
+<section>
   <h4><a name="entailevaltests" id="entailevaltests"/>Entailment Evaluation Tests</a></h4>
 
 <p>Entailment Evaluation tests are special query evaluation tests that additionally (slightly ab-)use the <tt>sd:entailmentRegime</tt> and, optionally, the <tt>sd:entailmentProfile</tt> properties from the <a href="http://www.w3.org/TR/sparql11-service-description/">SPARQL 1.1 Service Description<a> vocabulary to further specify the  object of the <tt>mf:action</tt> property, indicating the expected entailment regime for graphs in the dataset and, where applicable, which OWL profile that test satisfies.</p>
@@ -376,7 +394,9 @@ list or as a single value:</p>
 
 <p>Note that, strictly speaking, this use of the <tt>sd:entailmentRegime</tt></a> property - by its specified <a href="http://www.w3.org/TR/sparql11-service-description/#sd-entailmentRegime">domain</a> - makes the object of the <tt>mf:action</tt> attribute a member of the <tt>sd:NamedGraph</tt> class; the <tt>sd:NamedGraph</tt> class though has no meaning within the context of test cases, so this domain specification can be savely ignored.</p>
 
+</section>
 
+<section>
   <h4><a name="updateevaltests" id="updateevaltests"/>Update Evaluation Tests</a></h4>
 
   <p>Each update evaluation test has an <tt>mf:action</tt> and an
@@ -417,7 +437,9 @@ to the graphs denoted in the <tt>mf:action</tt> (and <tt>mf:result</tt>) propert
                 ut:data  &lt;spo.ttl&gt;
               ] .
 </pre>
+</section>
 
+<section>
 <h4><a name="servicetests" id="servicetests"/>Federated Query Tests</a></h4>
 
 <p>In SPARQL 1.1 Federated Query, tests cases contain new vocabulary not used before. These tests check whether the queries with that operator are correct or not. Queries using the <code>SERVICE</code> keyword for accessing remote SPARQL endpoints need a way to describe the data comming from these endpoints which was not previously defined.</p>
@@ -442,19 +464,27 @@ to the graphs denoted in the <tt>mf:action</tt> (and <tt>mf:result</tt>) propert
        mf:result  &lt;service01.srx&gt; .</pre>
 
 
+</section>
 
+<section>
 <h4><a name="protocoltests" id="protocoltests"/>Protocol Tests</a></h4>
 
 <p>A testing service for <a href="http://www.w3.org/TR/sparql11-protocol/">SPARQL 1.1 Protocol</a> implementations has been set up at <tt><a href="http://www.w3.org/2009/sparql/protocol_validator">http://www.w3.org/2009/sparql/protocol_validator</a></tt>. The service and tests performed by this service are described in a <a href="https://github.com/kasei/sparql11-protocolvalidator">separate document</a>.</p>
+</section>
 
+<section>
 <h4><a name="servicedescriptiontests" id="servicedescriptiontests"/>Service Description Tests</a></h4>
 
 <p>A testing service for SPARQL 1.1 Protocol implementations supporting <a href="http://www.w3.org/TR/sparql11-service-description/">SPARQL 1.1 Service Descriptions</a> has been set up at <tt><a href="http://www.w3.org/2009/sparql/sdvalidator">http://www.w3.org/2009/sparql/sdvalidator</a></tt>. The service performs a number of tests to verify that a submitted endpoint returns RDF that conforms to the service description vocabulary specification. Using content negotiation to request RDF (supporting both Turtle and RDF/XML), the service can be used to generate an <a href="http://www.w3.org/2001/sw/DataAccess/tests/earl">EARL implementation report</a>.</p>
+</section>
 
+<section>
 <h4><a name="graphstoreprotocoltests" id="graphstoreprotocoltests"/>Graph Store HTTP Protocol Tests</a></h4>
 
 <p>A number of test cases for the <a href="http://www.w3.org/TR/sparql11-http-rdf-update/">SPARQL 1.1 Graph Store HTTP Protocol</a> consisting of HTTP requests and expected responses are described in a <a href="http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/">separate document</a>.</p> 
+</section>
 
+<section>
   <h4><a name="testannotations" id="testannotations"/>Test annotations</a></h4>
 
 <p>@@@ This section might need reconsideration to reflect extensions (like new library functions) that have become standard in SPARQL1.1 @@@</p>
@@ -505,6 +535,18 @@ tag (simple literals) and certain XSD datatypes.
     <dd>The test involves handling of ill-formed literals.</dd>
 
 </dl>
+</section>
+
+<section>
+  <h4><a name="howto" id="howto"/>How to run the Test Cases</a></h4>
+
+
+<p><b>@@@ This section shall contain some hints on how to actually run the test suite and generate implementation reports for implementers.</b></p>
+
+    <p>&nbsp;</p>
+
+</section>
+
 	<section>
 		<h3>Manifest format</h3>
   		<p>
