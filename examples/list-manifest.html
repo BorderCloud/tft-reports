@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../node_modules/jquery/dist/jquery.slim.js"></script>
+    <script src="../node_modules/sgvizler2/build/browser/sgvizler2.js"></script>
+</head>
+<body>
+
+<pre>
+prefix mf: &lt;http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#&gt;
+prefix earl: &lt;http://www.w3.org/ns/earl#&gt;
+prefix sq: &lt;http://sparqlscore.net/Score#&gt;
+prefix sd: &lt;http://www.w3.org/ns/sparql-service-description#&gt;
+prefix git: &lt;http://www.w3.org/ns/git#&gt;
+prefix rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+prefix xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt;
+
+SELECT * WHERE {
+GRAPH &lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/273848482&gt; {
+?assertion a earl:Assertion.
+?assertion earl:result ?result.
+#?result earl:date ?date.
+?result earl:info ?info.
+#?result earl:outcome ?outcome.
+}
+}
+
+select DISTINCT ?testiri ?name ?queryTest where
+ {GRAPH <'.$GRAPHTESTS.'>
+         {
+            ?manifest a	      	mf:Manifest ;
+                  mf:entries  	?collection .
+                  ?collection 	rdf:rest*/rdf:first  ?testiri .
+
+            ?testiri a 		mf:NegativeSyntaxTest11 ;
+                 mf:name    	?name ;
+                 dawgt:approval dawgt:Approved ;
+                 mf:action 	?queryTest  .
+         }
+}
+ ORDER BY ?testiri
+</pre>
+
+<div id="result"
+     data-sgvizler-query="
+prefix mf: &lt;http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#&gt;
+prefix earl: &lt;http://www.w3.org/ns/earl#&gt;
+prefix sq: &lt;http://sparqlscore.net/Score#&gt;
+prefix sd: &lt;http://www.w3.org/ns/sparql-service-description#&gt;
+prefix git: &lt;http://www.w3.org/ns/git#&gt;
+prefix rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+prefix xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt;
+
+SELECT * WHERE {
+GRAPH &lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/273848482&gt; {
+?assertion a earl:Assertion.
+?assertion earl:result ?result.
+?result earl:info ?info.
+}
+}
+"
+     data-sgvizler-endpoint="http://134.158.74.247/test/query"
+     data-sgvizler-chart="bordercloud.visualization.DataTable"
+     data-sgvizler-log="2"
+     data-sgvizler-method="GET"
+></div>
+
+
+<script>
+    //Draw a chart
+    //sgvizler2.containerDraw('result');
+    //or
+    //$("#result").containerchart();
+
+    //Draw all Chart
+    sgvizler2.containerDrawAll();
+</script>
+</body>
+</html>
+

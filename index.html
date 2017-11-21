@@ -97,6 +97,7 @@ of tests has a <em>manifest file</em> within its directory (usually named
 There is also a number of overall manifests containing entries pointing to the
 individual test collection manifests:</p>
 
+    <!--old version
 <ul>
 <li><a
 href="http://www.w3.org/2001/sw/DataAccess/tests/data-r2/manifest-syntax.ttl">manifest
@@ -115,27 +116,32 @@ href="http://www.w3.org/2009/sparql/docs/tests/data-sparql11/manifest-sparql11-u
   <li><a
 href="data-sparql11/service-description/manifest.ttl">manifest of service description tests</a> for the <a href="http://www.w3.org/TR/sparql11-service-description/">SPARQL1.1 Service Description</a></li>
 </ul>
-
-    <div id="result-manifest"
+-->
+    <div id="resulth"
          data-sgvizler-query="PREFIX mf: &lt;http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#&gt;
 PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
 prefix rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
 
-SELECT  ?label (group_concat(DISTINCT ?manifest) as ?manifests)
+SELECT  (?specLink as ?Specification)   (group_concat(?manifestLink) as ?Manifests)
 WHERE {
 GRAPH &lt;http://w3c.github.io/rdf-tests/sparql11/data-sparql11/&gt;  {
         ?spec  mf:conformanceRequirement   ?collection .
         ?spec  rdfs:label   ?label .
         ?collection 	rdf:rest*/rdf:first  ?manifest .
+        OPTIONAL{
+       ?manifest rdfs:label   ?manifestLabel .
      }
-}
-GROUP BY ?label
-ORDER BY ?label
-"
-         data-sgvizler-endpoint="http://134.158.74.247/test/query"
-         data-sgvizler-chart="sgvizler.visualization.Table"
-         data-sgvizler-log="2"
-         data-sgvizler-method="POST"
+
+         BIND( concat('&lt;a href=\'',str(?manifest),'\'&gt;',IF(bound(?manifestLabel), ?manifestLabel, 'no label') ,'&lt;/a&gt;') as ?manifestLink)
+    BIND( concat('&lt;a href=\'',str(?spec),'\'&gt;',?label ,'&lt;/a&gt;') as ?specLink)
+    }
+    }
+    GROUP BY ?specLink
+    ORDER BY ?specLink"
+    data-sgvizler-endpoint="http://134.158.74.247/test/query"
+    data-sgvizler-chart="sgvizler.visualization.Table"
+    data-sgvizler-log="2"
+    data-sgvizler-method="POST"
     ></div>
 
 </section>
@@ -566,202 +572,123 @@ tag (simple literals) and certain XSD datatypes.
 <p><b>@@@ This section shall contain some hints on how to actually run the test suite and generate implementation reports for implementers.</b></p>
 
     <p>&nbsp;</p>
+    <div class="issue" id="issue-A">
+        <div role="heading" class="issue-title marker" id="h-issue" aria-level="3">
+            <span>TODO B</span><span style="text-transform: none"></span>
+        </div>
+        <div class="">
+            <p>
+                Ecrire la doc
 
+                BorderCloud/tft-jena-fuseki https://github.com/BorderCloud/tft-jena-fuseki
+                BorderCloud/tft-virtuoso7-stable https://github.com/BorderCloud/tft-virtuoso7-stable
+            </p>
+        </div>
+    </div>
+
+    <section>
+        <h5><a name="howto" id="howto"/>How to run the Test Cases in local with Docker</a></h5>
+
+        <pre>
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+docker pull bordercloud/tft-virtuoso7-stable
+docker pull -t bordercloud/tft-jena-fuseki
+docker run --privileged --name instance.tft_database -d bordercloud/tft-jena-fuseki
+docker run --privileged --name instance.tft.example.org -h example.org -d bordercloud/tft-virtuoso7-stable
+docker run --privileged --name instance.tft.example1.org -h example1.org -d bordercloud/tft-virtuoso7-stable
+docker run --privileged --name instance.tft.example2.org -h example2.org -d bordercloud/tft-virtuoso7-stable
+docker run --privileged --name instance.jena-fuseki -h tft-jena-fuseki -d bordercloud/tft-jena-fuseki
+git clone --recursive https://github.com/BorderCloud/TFT.git
+cd TFT
+composer install --dev
+php ./tft-testsuite -a -t fuseki -q http://172.17.0.2/test/query -u http://172.17.0.2/test/update
+php ./tft -t fuseki -q http://172.17.0.2/test/query -u http://172.17.0.2/test/update -tt fuseki -tq http://172.17.0.6/test/query -tu http://172.17.0.6/test/update -r http://test.example.com -o ./junit --softwareName="Fuseki"  --softwareDescribeTag=v3.4.0 --softwareDescribe=v3.4.0
+php ./tft-score -t fuseki -q http://172.17.0.2/test/query -u http://172.17.0.2/test/update -r  http://test.example.com
+    </pre>
+    </section>
+
+    <section>
+        <h5><a name="howto" id="howto"/>How to run the Test Cases in GitHub via Travis CI</a></h5>
+
+        https://github.com/BorderCloud/tft-jena-fuseki/blob/master/.travis.yml
+        <pre>
+sudo: required
+
+language: php
+php:
+  - '7.1'
+
+notifications:
+  email:
+    recipients:
+      - karima.rafes@gmail.com
+    on_success: always # default: change (other : never)
+    on_failure: always # default: always
+
+env:
+  global:
+    - URI="https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/$((TRAVIS_JOB_ID - 1))"
+    - NAME="Jena Fuseki"
+    - SOFTWARE_DESCRIBE="Jena Fuseki"
+    - VERSION="3.4.0"
+    - SPARQLSCORE_DATABASE="172.17.0.6" #local
+
+services:
+  - docker
+
+before_install:
+  - docker pull bordercloud/tft-virtuoso7-stable
+  - docker build -t tft-jena-fuseki .
+#  - docker pull bordercloud/tft-jena-fuseki
+
+script:
+# Deploy TFT
+# Run RDF database in order to save tests and results
+  -   docker run --privileged --name instance.jena-fuseki -h tft-jena-fuseki -d tft-jena-fuseki
+
+  -   docker run --privileged --name instance.tft.example.org -h example.org -d bordercloud/tft-virtuoso7-stable
+  -   docker run --privileged --name instance.tft.example1.org -h example1.org -d bordercloud/tft-virtuoso7-stable
+  -   docker run --privileged --name instance.tft.example2.org -h example2.org -d bordercloud/tft-virtuoso7-stable
+
+##  -   docker run --privileged --name instance.tft_database -d tft-jena-fuseki
+
+## Run quick test
+#  -   docker run --privileged --name instance.jena-fuseki -h tft-jena-fuseki -d bordercloud/tft-jena-fuseki
+#  -   docker run --privileged --name instance.tft.example.org -h example.org -d bordercloud/tft-virtuoso7-stable
+#  -   docker run --privileged --name instance.tft.example1.org -h example1.org -d bordercloud/tft-virtuoso7-stable
+#  -   docker run --privileged --name instance.tft.example2.org -h example2.org -d bordercloud/tft-virtuoso7-stable
+#  -   docker run --privileged --name instance.tft_database -d bordercloud/tft-jena-fuseki
+
+  -   git clone --recursive https://github.com/BorderCloud/TFT.git
+  -   cd TFT
+  -   composer install --dev
+  -   php ./tft-testsuite -a -t fuseki -q http://${SPARQLSCORE_DATABASE}/test/query -u http://${SPARQLSCORE_DATABASE}/test/update
+  -   php ./tft -t fuseki -q http://${SPARQLSCORE_DATABASE}/test/query -u http://${SPARQLSCORE_DATABASE}/test/update -tt fuseki -tq http://172.17.0.2/test/query -tu http://172.17.0.2/test/update -r ${URI} -o ./junit --softwareName="${NAME}"  --softwareDescribeTag=${VERSION}  --softwareDescribe="${TRAVIS_COMMIT}"
+  -   php ./tft-score -t fuseki -q http://${SPARQLSCORE_DATABASE}/test/query -u http://${SPARQLSCORE_DATABASE}/test/update -r  ${URI}
+
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
+    docker push bordercloud/tft-jena-fuseki;
+    fi
+        </pre>
+    </section>
+
+
+    <section>
+        <h5><a name="howto" id="howto"/>Share the report</a></h5>
+
+        https://github.com/BorderCloud/tft-jena-fuseki/blob/master/.travis.yml
+        <pre>
+    - SPARQLSCORE_DATABASE="134.158.74.247"
+#   - SPARQLSCORE_DATABASE="172.17.0.6" #local
+        </pre>
+    </section>
 </section>
-    ---------------------------------------------------------------------------------------------------------------------------------------------
 
-	<section>
-		<h3>Manifest format</h3>
-  		<p>
-  			The tests are available in the folder structure starting at
-  			<a href="https://github.com/w3c/data-shapes/tree/gh-pages/data-shapes-test-suite/tests">tests</a>.
-    		Each folder contains one or more manifest files that describe the tests in that folder.
-    	</p>
-		<p>
-			The manifest file is defined in RDF and is compatible with the manifest used by other W3c initiatives like
-	         <a href="www.w3.org/2011/rdf-wg/wiki/RDF_Test_Suites">RDF 1.1</a> or
-	         <a href="http://www.w3.org/2001/sw/DataAccess/tests/r2">SPARQL</a>
-	     </p>
 
-<pre data-lang="text/turtle">
-&lt;&gt; a mf:Manifest ;
-     rdfs:label "...Manifest label"
-     rdfs:comment "...Manifest comment" ;
-     dc:creator "...creator..."
-     mf:entries
-     (
-     ....list of ManifestEntries
-     ) .</pre>
-	<p>Each manifest entry is a single test which can be one of the following types:</p>
-		<ul>
-		<li><a href="#Validate">Validate RDF data</a>
-		</ul>
-	</section>
-
-	<section>
-		<h3 id="Validate">Validate RDF data</h3>
-		<p>
-			These tests verify that the validation of a given data graph against a given shapes graph produces
-			a specified validation report.
-			Both the data graph and the shapes graph may be identical.
-		</p>
-		<p>
-			Example:
-		</p>
-<pre data-lang="text/turtle">
-&lt;entry1&gt; a sht:Validate ;
-   mf:name "Validate simple RDF data with a simple shapes graph" ;
-   mf:action [
-        sht:shapesGraph &lt;example-shapes.ttl&gt; ;
-        sht:dataGraph &lt;example-data.ttl&gt; ;
-   ] ;
-   mf:result [
-        a sh:ValidationReport ;
-        sh:conforms true ;
-   ] ;
-   mf:status sht:proposed .
-</pre>
-		<p>
-			To perform the test, a validation engine must validate the data graph specified by <code>sht:dataGraph</code>
-			against the shapes graph specified by <code>sht:shapesGraph</code>.
-			The values of both must be relative URLs pointing at a Turtle file in the same directory as the test file itself.
-			It is also valid that either of these graphs point at the manifest graph itself, using the relative URL <code>&lt;&gt;</code>.
-		</p>
-		<p>
-			Implementations may report two levels of compliance:
-		</p>
-		<ul>
-			<li>
-				<dfn>partial compliance</dfn> means that an implementation is able to perform conformance checking only,
-				i.e. produces the same boolean value for <code>sh:conforms</code> as required by the expected report.
-			</li>
-			<li>
-				<dfn>full compliance</dfn> means that an implementation can produce a complete validation report
-				that can be compared with the expected validation report as described in the remainder of this section.
-			</li>
-		</ul>
-		<p>
-			For <a>full compliance</a>:
-			Let <code>R</code> be the blank node that is the value of <code>mf:result</code> of the <code>sht:Validate</code> test case
-			in the manifest graph.
-			Let <code>expected</code> be the graph that consists of all triples from the manifest graph that have <code>R</code> as subject
-			plus all triples that have all values of <code>sh:result</code> of <code>R</code> as their subject,
-			as well as any triples needed to correctly represent the <code>sh:resultPath</code>.
-		</p>
-		<p>
-			Let <code>actual</code> be the results graph produced by the validation, i.e. the validation report.
-			The test framework may post-process this results graph to ensure the following preconditions.
-			Before comparing the results graph with the <code>expected</code> results, the <code>actual</code> validation report
-			must not include any "nested" results, via <code>sh:details</code>.
-			The <code>actual</code> results also must not depend on subclass relationships, so that instances of subclasses of
-			<code>sh:ValidationReport</code> and <code>sh:ValidationResult</code> must have these as their (only) <code>rdf:type</code> values.
-			Also, all instances of <code>sh:ValidationResult</code> and <code>sh:ValidationReport</code> must be blank nodes,
-			i.e. if the engine produces URIs then these need to be replaced with blank nodes.
-			Also, the blank node structures representing property paths via <code>sh:resultPath</code> must not be shared among
-			multiple results, i.e. they may need to be cloned prior to comparison.
-			Blank node structures representing property paths via <code>sh:resultPath</code> must not reuse the same path blank node
-			(as values of <code>sh:inversePath</code> etc) in multiple places - these need to be normalized before the comparison,
-			i.e. share blank node structures need to be cloned into new blank nodes.
-			Furthermore, only the following predicates are used by triples in the <code>expected</code> graph and therefore
-			any other triples need to be removed from the <code>actual</code> graph prior to comparison:
-		</p>
-		<ul>
-			<li><code>rdf:type sh:ValidationReport</code></li>
-			<li><code>sh:result</code></li>
-			<li><code>sh:conforms</code></li>
-			<li><code>rdf:type sh:ValidationResult</code></li>
-			<li><code>sh:focusNode</code></li>
-			<li><code>sh:resultPath</code> (including depending blank node structures)</li>
-			<li><code>sh:resultSeverity</code></li>
-			<li><code>sh:sourceConstraint</code></li>
-			<li><code>sh:sourceConstraintComponent</code></li>
-			<li><code>sh:sourceShape</code></li>
-			<li><code>sh:value</code></li>
-		</ul>
-
-    		<div class="issue" id="issue-2">
-			<div role="heading" class="issue-title marker" id="h-issue" aria-level="3">
-				<span>TODO</span><span style="text-transform: none"></span>
-			</div>
-			<div class="">
-			  <p>
-			  Faire la liste des classes et reprendre leurs descriptions
-			  </p>
-			</div>
-		</div>
-
-    		<div class="issue" id="issue-2">
-			<div role="heading" class="issue-title marker" id="h-issue" aria-level="3">
-				<span>TODO</span><span style="text-transform: none"></span>
-			</div>
-			<div class="">
-			  <p>
-			  Faire la liste des propriétés par classes et reprendre leurs descriptions
-			  </p>
-			</div>
-		</div>
-
-		<p>
-			An exception is <code>sh:resultMessage</code>: As a general rule, all triples with <code>sh:resultMessage</code> as subject
-			need to be removed from the <code>actual</code> graph, except those with object <code>?object</code> for which
-			the <code>expected</code> graph contains a triple <code>?any sh:resultMessage ?object</code>.
-			This makes sure that certain tests can verify that <code>sh:resultMessage</code> has been correctly
-			populated from the <code>sh:message</code> triples in the shapes graph.
-		</p>
-		<p>
-			To pass <a>full compliance</a>, the <code>actual</code> validation report must be <a href="https://www.w3.org/TR/rdf11-concepts/#graph-isomorphism">isomorphic</a> to <code>expected</code>.
-			If the test case has <code>sht:Failure</code> as its value for <code>mf:result</code> then the test is passed if the validation reported a failure.
-			Alternatively, implementation may still report pass if they have manually checked that their validation reports satisfy the requirements specified by the SHACL specification.
-			The latter also applies to scenarios that are well-formed SHACL validation results according to [[!shacl]] while the
-			test framework has stricter expectations.  For example, not all implementation are required to produce <code>sh:sourceShape</code> triples.
-		</p>
-		<p>
-			In order to improve precision of comparing test results, blank nodes should be avoided as values
-			of <code>sh:sourceShape</code> and <code>sh:sourceConstraint</code>.
-		</p>
-	</section>
-
-	<section>
-		<h3>Test Creation, Approval and Modification Process</h3>
-		<p>
-			Tests are maintained by members of the Working Group in the
-			<a href="https://github.com/w3c/data-shapes/tree/gh-pages/data-shapes-test-suite/tests">GitHub</a> repository.
-			Anyone, including non-members, can submit or suggest test cases via GitHub pull requests.
-			Submissions by other means may be rejected without response.
-			Test cases that have not been accepted by the Working Group yet must have <code>mf:status sht:proposed</code>.
-		</p>
-		<p>
-			At the chair's discretion, individual tests or groups of tests are put to the Working Group,
-			e.g. in the weekly telecon.
-			The Working Group has complete discretion to approve or reject tests.
-			Approved tests must have <code>mf:status sht:approved</code>, those that have been rejected
-			may get marked as <code>mf:status sht:rejected</code> or deleted from the main branch of the repository.
-			All approved tests must be reachable from the root manifest.mf file.
-		</p>
-		<p>
-			Editors may modify test cases, but SHOULD go through the WG process for non-trivial changes.
-		</p>
-		<p>
-			In addition to validation tests, we encourage users to submit examples of ill-formed shapes graphs.
-			These may be used in the future to collect syntax tests.
-		</p>
-	</section>
-
-	<section>
-		<h3>Submitting Implementation Reports</h3>
-		<p>
-			Implementations listed here need to be submitted as a Turtle file in the format similar to the
-			<a href="reports/topbraid-shacl-earl.ttl">TopBraid SHACL API EARL Report</a>.
-			In a nutshell, we use [[EARL10-Schema]] to represent individual test results and metadata about the test subject.
-			To indicate <a>full compliance</a>, use <code>earl:passed</code> as value for <code>earl:outcome</code>.
-			To indicate <a>partial compliance</a> (i.e. can report <code>true</code> and <code>false</code>), use <code>sht:partial</code>.
-		</p>
-		<p>
-			The preferred way of submitting test reports is via a pull request into the <a href="https://github.com/w3c/data-shapes/tree/gh-pages/data-shapes-test-suite/reports">reports</a> folder
-			on GitHub.  Alternatively, send your Turtle file to the public comments mailing list.
-		</p>
-	</section>
-</section>
 
 	<section>
 		<h2>Reports</h2>
