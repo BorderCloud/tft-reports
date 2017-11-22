@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../node_modules/jquery/dist/jquery.slim.js"></script>
+    <script src="../node_modules/sgvizler2/build/browser/sgvizler2.js"></script>
+</head>
+<body>
+
+<pre>
+    PREFIX mf: <http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#>
+PREFIX earl: <http://www.w3.org/ns/earl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sd: <http://www.w3.org/ns/sparql-service-description#>
+PREFIX sq: <http://sparqlscore.net/Score#>
+PREFIX git: <http://www.w3.org/ns/git#>
+
+SELECT ?serverName ?serverVersion ?testerName ?testerVersion WHERE {
+GRAPH ?g {
+?service a sd:Service ;
+sd:server ?server ;
+sd:testedBy ?tester .
+?server git:name ?serverName ;
+git:describeTag ?serverVersion ;
+git:describe ?serverVersionBuild .
+?tester  git:name ?testerName ;
+git:describeTag ?testerVersion .
+}
+}
+</pre>
+
+<div id="result"
+     data-sgvizler-query="PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+     prefix sq: &lt;http://sparqlscore.net/Score#&gt;
+prefix sd: &lt;http://www.w3.org/ns/sparql-service-description#&gt;
+prefix git: &lt;http://www.w3.org/ns/git#&gt;
+prefix rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+prefix xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt;
+
+SELECT ?serverName ?serverVersion ?testerName ?testerVersion WHERE {
+GRAPH ?g {
+?service a sd:Service ;
+sd:server ?server ;
+sd:testedBy ?tester .
+?server git:name ?serverName ;
+git:describeTag ?serverVersion ;
+git:describe ?serverVersionBuild .
+?tester  git:name ?testerName ;
+git:describeTag ?testerVersion .
+}
+}
+
+"
+     data-sgvizler-endpoint="http://134.158.74.247/test/query"
+     data-sgvizler-chart="bordercloud.visualization.DataTable"
+     data-sgvizler-log="2"
+     data-sgvizler-method="GET"
+></div>
+
+
+<script>
+    //Draw a chart
+    //sgvizler2.containerDraw('result');
+    //or
+    //$("#result").containerchart();
+
+    //Draw all Chart
+    sgvizler2.containerDrawAll();
+</script>
+</body>
+</html>
