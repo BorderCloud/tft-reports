@@ -874,15 +874,29 @@ ORDER by ?name"
 				</p>
 
 				<div class="issue">
-				<div role="heading" class="issue-title marker" id="h-issue" aria-level="3">
+				<div role="heading" class="issue-title marker" id="h-issue7" aria-level="3">
 					<span>TODO 7</span><span style="text-transform: none"></span>
 				</div>
-				<div class="">
-				  <p>
-				  reproduire le tableau dans cette partie
-				  http://w3c.github.io/rdf-tests/sparql11/reports/
-				  </p>
-				</div>
+                <div id="result7"
+                     data-sgvizler-query="
+                            PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+                            PREFIX mf: &lt;http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#&gt;
+                            PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+                            SELECT  DISTINCT ?name
+                            WHERE {
+                                GRAPH ?g {
+
+                                    ?test a mf:NegativeUpdateSyntaxTest11;
+                                                     mf:name ?name
+                                }
+                            }
+                            ORDER BY ?name"
+                     data-sgvizler-endpoint="http://134.158.74.247/test/query"
+                     data-sgvizler-chart="sgvizler.visualization.Table"
+                     data-sgvizler-log="2"
+                     data-sgvizler-method="GET"
+                ></div>
+                </div>
 			</section>
 			<section>
 				<h4>SPARQL 1.1 Query Results CSV and TSV Formats</h4>
