@@ -743,6 +743,32 @@ data-sgvizler-method="GET"
 			  <p>
 			  Faire la liste des erreurs pour ce logiciel coté résultat
 			  </p>
+			  <div id="result_JB" 
+					data-sgvizler-query="PREFIX mf: &lt;http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#&gt;
+					PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+					PREFIX rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+					
+					SELECT  (?specLink as ?Specification)
+					WHERE {
+					GRAPH ?g  {
+							?spec  mf:conformanceRequirement   ?collection .
+							?spec  rdfs:label   ?label .
+							?collection 	rdf:rest*/rdf:first  ?manifest .
+							OPTIONAL{
+						?manifest rdfs:label   ?manifestLabel .
+						}
+					
+							BIND( concat('&lt;a href=\'',str(?manifest),'\'&gt;;',IF(bound(?manifestLabel), ?manifestLabel, 'no label') ,'&lt;/a&gt;;') as ?manifestLink)
+						BIND( concat('&lt;a href=\'',str(?spec),'\'&gt;;',?label ,'&lt;/a&gt;;') as ?specLink)
+						}
+						}
+						GROUP BY ?specLink
+						ORDER BY ?specLink" 
+					data-sgvizler-endpoint="http://134.158.74.247/test/query" 
+					data-sgvizler-chart="sgvizler.visualization.Table" 
+					data-sgvizler-log="2" 
+					data-sgvizler-method="POST" 
+				></div>
 			</div>
 		</div>
 
