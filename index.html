@@ -912,8 +912,24 @@ after_success:
 				</div>
 				<div class="">
 				  <p>
-				  reproduire le tableau dans cette partie
-				  http://w3c.github.io/rdf-tests/sparql11/reports/
+<div id="result14"
+         data-sgvizler-query="PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX mf: <http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT  DISTINCT *
+WHERE {
+  GRAPH ?g {
+    ?test a mf:ProtocolTest
+  }
+}
+"
+    data-sgvizler-endpoint="http://134.158.74.247/test/query"
+    data-sgvizler-chart="sgvizler.visualization.Table"
+    data-sgvizler-log="2"
+    data-sgvizler-method="POST"
+    ></div>
+
 				  </p>
 				</div>
 			</section>
