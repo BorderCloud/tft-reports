@@ -1,0 +1,121 @@
+<html>
+<!--
+https://io.datascience-paris-saclay.fr/query/SparqlScore_-_Resume_implementation_with_SPARQL_1.1
+-->
+<head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="https://bordercloud.github.io/sgvizler2/sgvizler2/sgvizler2.js"></script>
+</head>
+<body style="margin:0;">
+<div id="sgvzl_example_query"
+     data-sgvizler-endpoint="http://134.158.74.247/test/query"
+     data-sgvizler-query="prefix earl: &lt;http://www.w3.org/ns/earl#&gt;
+prefix rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+prefix xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt;
+prefix mf:  &lt;http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#&gt;
+
+SELECT ?nb  ?Specification
+(COUNT(DISTINCT ?test) as ?Nb_Tests)
+(CONCAT(xsd:string(round((?Nb_Tests - COUNT(DISTINCT ?testKOJena))*100/ ?Nb_Tests)),&quot;%&quot;) as ?Jena)
+(CONCAT(xsd:string(round((?Nb_Tests - COUNT(DISTINCT ?testKOBlazegraph))*100/ ?Nb_Tests)),&quot;%&quot;) as ?Blazegraph)
+(CONCAT(xsd:string(round((?Nb_Tests - COUNT(DISTINCT ?testKOStardog))*100/ ?Nb_Tests)),&quot;%&quot;) as ?Stardog)
+(CONCAT(xsd:string(round((?Nb_Tests - COUNT(DISTINCT ?testKOVirtuoso))*100/ ?Nb_Tests)),&quot;%&quot;) as ?Virtuoso)
+
+WHERE
+{
+      VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
+           (
+           &lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/321458219&gt;
+           &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/411331663&gt;
+           &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/411347262&gt;
+           &lt;https://travis-ci.org/BorderCloud/tft_virtuoso7_stable/builds/273848410&gt;
+           )
+        }
+
+    GRAPH &lt;http://w3c.github.io/rdf-tests/sparql11/data-sparql11/&gt; {
+      VALUES (?nb ?categoryIRI)  {
+           ( 1 &lt;http://www.w3.org/TR/sparql11-query/&gt; )
+           ( 2 &lt;http://www.w3.org/TR/sparql11-update/&gt;)
+           ( 3 &lt;http://www.w3.org/TR/sparql11-results-csv-tsv/&gt; )
+           ( 4 &lt;http://www.w3.org/TR/sparql11-results-json/&gt;)
+           ( 5 &lt;http://www.w3.org/TR/sparql11-federated-query/&gt;)
+           ( 6 &lt;http://www.w3.org/TR/sparql11-entailment/&gt; )
+           ( 7 &lt;http://www.w3.org/TR/sparql11-service-description/&gt;)
+           ( 8 &lt;http://www.w3.org/TR/sparql11-protocol/&gt;)
+        }
+
+      ?categoryIRI rdfs:label ?Specification ;
+                     mf:conformanceRequirement ?list.
+        ?list rdf:rest*/rdf:first ?ttlTests .
+        ?ttlTests mf:entries ?entries .
+       ?entries rdf:rest*/rdf:first ?test.
+
+    }
+    GRAPH ?gJena {
+        ?assertionJena a earl:Assertion.
+        ?assertionJena earl:test ?test.
+        OPTIONAL{
+        ?assertionJena earl:result ?resultJena.
+        ?resultJena earl:outcome ?outJena .
+        ?assertionJena earl:test ?testKOJena.
+        FILTER ( ?outJena != earl:passed)
+        }
+    }
+    GRAPH ?gBlazegraph {
+        ?assertionBlazegraph a earl:Assertion.
+        ?assertionBlazegraph earl:test ?test.
+        OPTIONAL{
+        ?assertionBlazegraph earl:result ?resultBlazegraph.
+        ?resultBlazegraph earl:outcome ?outBlazegraph .
+        ?assertionBlazegraph earl:test ?testKOBlazegraph.
+        FILTER ( ?outBlazegraph != earl:passed)
+        }
+    }
+    GRAPH ?gStardog {
+        ?assertionStardog a earl:Assertion.
+        ?assertionStardog earl:test ?test.
+        OPTIONAL{
+        ?assertionStardog earl:result ?resultStardog.
+        ?resultStardog earl:outcome ?outStardog .
+        ?assertionStardog earl:test ?testKOStardog.
+        FILTER ( ?outStardog != earl:passed)
+        }
+    }
+    GRAPH ?gVirtuoso {
+        ?assertionVirtuoso a earl:Assertion.
+        ?assertionVirtuoso earl:test ?test.
+        OPTIONAL{
+        ?assertionVirtuoso earl:result ?resultVirtuoso.
+        ?resultVirtuoso earl:outcome ?outVirtuoso .
+        ?assertionVirtuoso earl:test ?testKOVirtuoso.
+        FILTER ( ?outVirtuoso != earl:passed)
+        }
+    }
+}
+GROUP BY ?nb  ?Specification
+ORDER BY ?nb"
+     data-sgvizler-chart='bordercloud.visualization.DataTable'
+     data-sgvizler-chart-options=''
+     data-sgvizler-endpoint_output_format='json'
+     data-sgvizler-log='2'
+     style='width:100%; height:450px;'  />
+
+
+
+<script>
+    $(document).ready(function() {
+        sgvizler2.containerDrawAll({
+            // Google Api key
+            googleApiKey : "GOOGLE_MAP_API_KEY",
+            // OpenStreetMap Access Token
+            //  https://www.mapbox.com/api-documentation/#access-tokens
+            osmAccessToken : "OSM_MAP_API_KEY"
+        });
+
+    });
+</script>
+
+</body>
+</html>
