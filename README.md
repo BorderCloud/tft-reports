@@ -1,2 +1,1 @@
-# tft-reports
-SPARQL 1.1 Test Results (in construction)
+# SPARQL Core 1.1 (Draft, in construction)
