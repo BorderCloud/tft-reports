@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset='utf-8'>
-    <title>SPARQL Core 1.1 : Test Suite Report</title>
+    <title>SPARQL (Core) 1.1 : Test Suite Report</title>
 
 
     <script class='remove'>
@@ -48,17 +48,87 @@
 
 	<section id='abstract'><h2 id="abstract-0">Abstract</h2>
 		<p>
-			This document will define the format of tests in the future SPARQL Core test suite and lists
-			test results from docker's instances of RDF databases that have evaluated by the TFT Framework via the service of Travis CI.
+			This document describe a method to execute the SPARQL test suite (of w3c/rdf-tests) with in input several docker's instances of SPARQL services.
+            This document is also a demonstrator uses  SPARQL queries directly in the HTML.
+
+            <!-- Place this tag where you want the button to render. -->
+            <a class="github-button" href="https://github.com/bordercloud/tft-reports" data-size="large" data-show-count="true" aria-label="Star bordercloud/tft-reports on GitHub">Star</a>
 		</p>
 	</section>
 
-    <section id="sotd" class="introductory"><h2 id="status-of-this-document">Status of This Document</h2>
-      <p>
-        This document is a demonstrator to visualize the actual interoperability  between several editors of SPARQL service.
-          (another version to look these results : <a href="http://sparqlscore.com/">SPARQLScore</a>)
-      </p>
+    <section id="sotd" class="introductory">
+
+    </section>
+
+    <section class="introductory"><h2>Introduction</h2>
+        <p>
+
+            This document is a draft (work in progress) to visualize the actual interoperability  between several editors of SPARQL service (another version to look these results with more details : <a href="http://sparqlscore.com/">SPARQLScore</a>).
+            It uses a new method to execute the SPARQL test suite in the cloud (reproducible free).
+
+        </p>
+        <p>
+
+            Already, this document describes several scripts to execute a part of SPARQL (core) test suite (of w3c/rdf-tests) with docker's instances of RDF databases.
+            These scripts can be used locally or in the cloud (via GitHub and the continuous integration service of Travis CI).
+
+        </p>
+        <p>
+
+            This document is also a demonstrator : all tables in this HTML document are the results of SPARQL queries (look the code).
+            This document is a demonstrator and a draft to visualize the actual interoperability  between several editors of SPARQL service.
+            (another version to look these results with more details : <a href="http://sparqlscore.com/">SPARQLScore</a>).
+
+        </p>
   </section>
+
+
+    <section ><h2>Tests/tools/software</h2>
+        <p>
+            This document is a demonstrator for the W3C working groups and uses :
+        <ul>
+            <li><a href="https://github.com/w3c/respec">ReSpec, a tool for creating technical documents and web standards</a></li>
+            <li><a href="https://github.com/BorderCloud/sgvizler2">
+                Sgvizler2, a tool for easy visualisation a SPARQL result in a HTML page.</a></li>
+        </ul>
+
+        To execute the tests of W3C in this document, we use :
+        <ul>
+            <li><a href="https://github.com/BorderCloud/TFT">
+                TFT (Tester for Triplestore), a script PHP to pass tests through a sparql endpoint.</a></li>
+            <li><a href="https://github.com/BorderCloud/SPARQL">
+                BorderCloud/SPARQL, very simple SPARQL client for PHP.</a></li>
+        </ul>
+
+        Only a part of tests of W3C are useable by TFT :
+        <ul>
+            <li><a href="http://w3c.github.io/rdf-tests/sparql11/">
+                Specification of tests</a></li>
+            <li><a href="https://github.com/w3c/rdf-tests/tree/gh-pages/sparql11/data-sparql11">Tests of W3C on GitHub</a></li>
+        </ul>
+
+
+        Thanks at editors of RDF databases who made this work possible  :
+        <ul>
+            <li><a href="https://www.blazegraph.com/">Blazegraph</a></li>
+            <li><a href="https://jena.apache.org/documentation/fuseki2/index.html">Jena-Fuseki</a></li>
+            <li><a href="https://www.stardog.com/">Stardog</a></li>
+            <li><a href="https://virtuoso.openlinksw.com/">OpenLink Virtuoso</a></li>
+        </ul>
+
+        Thanks at services who host/execute this project  :
+        <ul>
+            <li><a href="https://github.com/">Github</a></li>
+            <li><a href="https://travis-ci.org/">Travis-ci</a></li>
+            <li><a href="https://www.docker.com/">Docker</a></li>
+        </ul>
+
+        Thanks at the <a href="https://www.universite-paris-saclay.fr/en">University Paris-Saclay</a>  that hosts the SPARQL service to share the results of these tests.
+        </p>
+    </section>
+
+
+
 
 	<!--<section>-->
 		<!--<h2>Namespace prefixes</h2>-->
@@ -572,37 +642,36 @@
   <h4><a name="howto" id="howto"/>How to run the Test Cases</a></h4>
 
 
-<p><b>@@@ This section shall contain some hints on how to actually run the test suite and generate implementation reports for implementers.</b></p>
+<!--<p><b>@@@ This section shall contain some hints on how to actually run the test suite and generate implementation reports for implementers.</b></p>-->
 
-    <p>
+    <!--<p>-->
 
 
-        &nbsp;</p>
-    <div class="issue" id="issue-A">
-        <div role="heading" class="issue-title marker" id="h-issue" aria-level="3">
-            <span>TODO B</span><span style="text-transform: none"></span>
-        </div>
-        <div class="">
-            <p>
-                Translate in English
-            </p>
-        </div>
-    </div>
+        <!--&nbsp;</p>-->
+    <!--<div class="issue" id="issue-A">-->
+        <!--<div role="heading" class="issue-title marker" id="h-issue" aria-level="3">-->
+            <!--<span>TODO B</span><span style="text-transform: none"></span>-->
+        <!--</div>-->
+        <!--<div class="">-->
+            <!--<p>-->
+                <!--Translate in English-->
+            <!--</p>-->
+        <!--</div>-->
+    <!--</div>-->
 
     <section>
         <h5><a name="howto" id="howto"/>How to run the Test Cases in local with Docker</a></h5>
-        Ce script permet de calculer localement l'indicateur d'interopérabilité avec TFT. Ici, il est appliqué à la base de données RDF Blazegraph. En voici les étapes : (1) télécharger les images Docker et (2) les compiler , (3) déployer un Linked Data localement, (4) installer TFT, (5) charger les tests, (6) exécuter les tests en sauvegardant les résultats et (7) calculer l'indicateur d'interopérabilité.
-        <pre>
-# Remarque : les lignes commençant par des # sont des commentaires
+        This script calculates an indicator of interoperability for SPARQL 1.1 with the TFT framework (Test-For-Triplestore). Here, it is applied to the RDF Blazegraph database. These steps are: (1) upload the Docker images and (2) compile them, (3) deploy five nodes of Linked Data locally, (4) install TFT, (5) load the tests, (6) run the tests by saving the results and (7) calculate the interoperability indicator.
 
-# (1) Téléchargement des images Dockers
+        <pre>
+# (1) Upload the Docker images
 docker pull bordercloud/tft-jena-fuseki
 docker pull bordercloud/tft-virtuoso7-stable
 
-# (2) Compilation de l'image Docker du service SPARQL à tester
+# (2) Compile the Docker images of SPARQL service to test
 docker build -t tft-stardog .
 
-# (3) Déploiement du Linked Data local
+# (3) Deploy a Linked Data locally
 # 172.17.0.2
 docker run --privileged --name instance.tft-stardog -h tft-stardog -d tft-stardog
 # 172.17.0.3
@@ -614,20 +683,20 @@ docker run --privileged --name instance.tft.example1.org \
 # 172.17.0.5
 docker run --privileged --name instance.tft.example2.org \
            -h example2.org -d bordercloud/tft-virtuoso7-stable
-# 172.17.0.6 base de données locale pour sauvegarder les tests et les résultats
+# 172.17.0.6 local database to save tests and results
 docker run --privileged --name instance.tft_database -d tft-jena-fuseki
 
-# (4) Installation de TFT
+# (4) Install TFT
 git clone --recursive https://github.com/BorderCloud/TFT.git
 cd TFT
-# Installation du SPARQL client dans TFT
+# Install the SPARQL client of TFT
 composer install
 
-# (5) Chargement des tests
+# (5) Load all the tests
 php ./tft-testsuite -a -t fuseki -q http://172.17.0.6/test/query \
                     -u http://172.17.0.6/test/update
 
-# (6) Exécution des tests
+# (6) Execute these tests
 php ./tft -t fuseki -q http://172.17.0.6/test/query \
                     -u http://172.17.0.6/test/update \
           -tt fuseki -tq http://172.17.0.2/blazegraph/namespace/test/sparql/ \
@@ -638,7 +707,7 @@ php ./tft -t fuseki -q http://172.17.0.6/test/query \
           --softwareDescribeTag=X.X.X \
           --softwareDescribe="Name"
 
-# (7) Calcul du score/indicateur d'interopérabilité
+# (7) Calculate a score/indicator of interoperability
 php ./tft-score -t fuseki -q http://172.17.0.6/test/query \
                           -u http://172.17.0.6/test/update \
                 -r  http://example.org/buildid
@@ -729,7 +798,13 @@ In the Travis script, you can replace the local IP by the IP of a SPARQL service
 	<section>
 		<h2>Reports</h2>
 		<p>
-			This section summarizes the outcomes of last test reports of SPARQL implementation in docker images hosted by GitHub.
+			This section summarizes the outcomes of last test reports of SPARQL implementation in docker images hosted by GitHub. List of Docker images used:
+                <ul>
+                    <li><a href="https://github.com/BorderCloud/tft-blazegraph">Blazegraph 2.2.0</a></li>
+                    <li><a href="https://github.com/BorderCloud/tft-jena-fuseki">Jena-Fuseki 3.8.0</a></li>
+                    <li><a href="https://github.com/BorderCloud/tft-stardog">Stardog community 5.3.3</a></li>
+                    <li><a href="https://github.com/BorderCloud/tft-virtuoso7-stable">OpenLink Virtuoso version community 7/stable</a></li>
+                </ul>
 		</p>
         <section>
             <h3>Implementation by specification</h3>
@@ -1761,5 +1836,8 @@ WHERE {
     <script>
         alert("To display this page correctly, you must allow your browser to load unsafe scripts.");
     </script>
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
 </html>
