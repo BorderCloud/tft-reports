@@ -4,7 +4,11 @@
     <meta charset='utf-8'>
     <title>SPARQL (Core) 1.1 : Test Suite Report</title>
 
-
+      <style type="text/css">
+          .widget{
+              vertical-align: bottom;
+          }
+      </style>
     <script class='remove'>
       var respecConfig = {
         specStatus: "WD",
@@ -46,14 +50,16 @@
   </head>
   <body>
 
+  <p style="text-align: center">
+      You can star this work, if you find it interesting or want to come back.<br/>
+      <a class="github-button" href="https://github.com/bordercloud/tft-reports" data-size="large" data-show-count="false" aria-label="Star bordercloud/tft-reports on GitHub">Star</a>
+  </p>
+
 	<section id='abstract'><h2 id="abstract-0">Abstract</h2>
 		<p>
 			This document describe a method to execute the SPARQL test suite (of w3c/rdf-tests) with in input several docker's instances of SPARQL services.
             This document is also a demonstrator uses  SPARQL queries directly in the HTML.		</p>
-        <p>
-            You can star this work:<br/>
-            <iframe src="https://ghbtns.com/github-btn.html?user=bordercloud&repo=tft-reports&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe><br/>if you find it interesting or want to come back.
-		</p>
+
 	</section>
 
     <section id="sotd" class="introductory">
@@ -83,28 +89,29 @@
   </section>
 
 
-    <section ><h2>Tests/tools/software</h2>
+    <section ><h2>Tests, tools and softwares used</h2>
         <p>
             This document is a demonstrator for the W3C working groups and uses :
         <ul>
-            <li><a href="https://github.com/w3c/respec">ReSpec, a tool for creating technical documents and web standards</a></li>
+            <li><a href="https://github.com/w3c/respec">ReSpec, a tool for creating technical documents and web standards</a> <a style="vertical-align: middle" class="github-button" href="https://github.com/w3c/respec" data-show-count="true" aria-label="Star w3c/respec on GitHub">Star</a>
+            </li>
             <li><a href="https://github.com/BorderCloud/sgvizler2">
-                Sgvizler2, a tool for easy visualisation a SPARQL result in a HTML page.</a></li>
+                Sgvizler2, a tool for easy visualisation a SPARQL result in a HTML page.</a> <a style="vertical-align: middle" class="github-button" href="https://github.com/BorderCloud/sgvizler2" data-show-count="true" aria-label="Star BorderCloud/sgvizler2 on GitHub">Star</a></li>
         </ul>
 
         To execute the tests of W3C in this document, we use :
         <ul>
             <li><a href="https://github.com/BorderCloud/TFT">
-                TFT (Tester for Triplestore), a script PHP to pass tests through a sparql endpoint.</a></li>
+                TFT (Tester for Triplestore), a script PHP to pass tests through a sparql endpoint.</a>  <a style="vertical-align: middle" class="github-button" href="https://github.com/BorderCloud/TFT" data-show-count="true" aria-label="Star BorderCloud/TFT on GitHub">Star</a></li>
             <li><a href="https://github.com/BorderCloud/SPARQL">
-                BorderCloud/SPARQL, very simple SPARQL client for PHP.</a></li>
+                BorderCloud/SPARQL, very simple SPARQL client for PHP.</a>  <a style="vertical-align: middle" class="github-button" href="https://github.com/BorderCloud/SPARQL" data-show-count="true" aria-label="Star BorderCloud/SPARQL on GitHub">Star</a></li>
         </ul>
 
         Only a part of tests of W3C are useable by TFT :
         <ul>
             <li><a href="http://w3c.github.io/rdf-tests/sparql11/">
                 Specification of tests</a></li>
-            <li><a href="https://github.com/w3c/rdf-tests/tree/gh-pages/sparql11/data-sparql11">Tests of W3C on GitHub</a></li>
+            <li><a href="https://github.com/w3c/rdf-tests/tree/gh-pages/sparql11/data-sparql11">Tests of W3C on GitHub</a>  <a style="vertical-align: middle" class="github-button" href="https://github.com/w3c/rdf-tests" data-show-count="true" aria-label="Star w3c/rdf-tests on GitHub">Star</a></li>
         </ul>
 
 
@@ -113,7 +120,7 @@
             <li><a href="https://www.blazegraph.com/">Blazegraph</a></li>
             <li><a href="https://jena.apache.org/documentation/fuseki2/index.html">Jena-Fuseki</a></li>
             <li><a href="https://www.stardog.com/">Stardog</a></li>
-            <li><a href="https://virtuoso.openlinksw.com/">OpenLink Virtuoso</a></li>
+            <li><a href="https://virtuoso.openlinksw.com/">OpenLink Virtuoso</a>  <a style="vertical-align: middle" class="github-button" href="https://github.com/openlink/virtuoso-opensource" data-show-count="true" aria-label="Star openlink/virtuoso-opensource on GitHub">Star</a></li>
         </ul>
 
         Thanks at services who host/execute this project  :
@@ -639,7 +646,7 @@
 <!--</section>-->
 
 <section>
-  <h4><a name="howto" id="howto"/>How to run the Test Cases</a></h4>
+  <h4>How to run the Test Cases</h4>
 
 
 <!--<p><b>@@@ This section shall contain some hints on how to actually run the test suite and generate implementation reports for implementers.</b></p>-->
@@ -660,7 +667,7 @@
     <!--</div>-->
 
     <section>
-        <h5><a name="howto" id="howto"/>How to run the Test Cases in local with Docker</a></h5>
+        <h5>How to run the Test Cases in local with Docker</h5>
         This script calculates an indicator of interoperability for SPARQL 1.1 with the TFT framework (Test-For-Triplestore). Here, it is applied to the RDF Blazegraph database. These steps are: (1) upload the Docker images and (2) compile them, (3) deploy five nodes of Linked Data locally, (4) install TFT, (5) load the tests, (6) run the tests by saving the results and (7) calculate the interoperability indicator.
 
         <pre>
@@ -715,7 +722,7 @@ php ./tft-score -t fuseki -q http://172.17.0.6/test/query \
     </section>
 
     <section>
-        <h5><a name="howto" id="howto"/>How to run the Test Cases in GitHub via Travis CI</a></h5>
+        <h5>How to run the Test Cases in GitHub via Travis CI</h5>
 
         https://github.com/BorderCloud/tft-jena-fuseki/blob/master/.travis.yml
         <pre>
@@ -787,7 +794,7 @@ after_success:
 
 
     <section>
-        <h5><a name="howto" id="howto"/>Share the report</a></h5>
+        <h5>Share the report</h5>
 
 In the Travis script, you can replace the local IP by the IP of a SPARQL service online, such as, SPARQLScore (134.158.74.247).
     </section>
@@ -1824,6 +1831,7 @@ WHERE {
 </section>
 
 
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="node_modules/jquery/dist/jquery.slim.js"></script>
     <script src="node_modules/sgvizler2/build/browser/sgvizler2.js"></script>
     <script>
