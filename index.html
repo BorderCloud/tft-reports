@@ -39,7 +39,8 @@
 		// }
 		 ],
         processVersion: 2018,
-        edDraftURI: "https://github.com/BorderCloud/tft-reports",
+          // http://tft-reports.bordercloud.com
+        edDraftURI: "http://tft-reports.bordercloud.com",
         shortName: "tft-reports",
 	//previousURI: "https://w3c.github.io/rdf-tests/sparql11/",
           lint: false,
@@ -971,14 +972,14 @@ WHERE
 
     GRAPH &lt;http://w3c.github.io/rdf-tests/sparql11/data-sparql11/&gt; {
       VALUES (?nb ?categoryIRI)  {
-           ( 1 &lt;http://www.w3.org/TR/sparql11-query/&gt; )
-           ( 2 &lt;http://www.w3.org/TR/sparql11-update/&gt;)
-           ( 3 &lt;http://www.w3.org/TR/sparql11-results-csv-tsv/&gt; )
-           ( 4 &lt;http://www.w3.org/TR/sparql11-results-json/&gt;)
-           ( 5 &lt;http://www.w3.org/TR/sparql11-federated-query/&gt;)
-           ( 6 &lt;http://www.w3.org/TR/sparql11-entailment/&gt; )
-           ( 7 &lt;http://www.w3.org/TR/sparql11-service-description/&gt;)
-           ( 8 &lt;http://www.w3.org/TR/sparql11-protocol/&gt;)
+           ( 1 &lt;http://www.w3.org/TR/sparql11-protocol/&gt; )
+           ( 2 &lt;http://www.w3.org/TR/sparql11-query/&gt; )
+           ( 3 &lt;http://www.w3.org/TR/sparql11-update/&gt;)
+           ( 4 &lt;http://www.w3.org/TR/sparql11-results-csv-tsv/&gt; )
+           ( 5 &lt;http://www.w3.org/TR/sparql11-results-json/&gt;)
+           ( 6 &lt;http://www.w3.org/TR/sparql11-federated-query/&gt;)
+           ( 7 &lt;http://www.w3.org/TR/sparql11-entailment/&gt; )
+           ( 8 &lt;http://www.w3.org/TR/sparql11-service-description/&gt;)
         }
 
       ?categoryIRI rdfs:label ?Specification ;
@@ -1120,6 +1121,116 @@ ORDER BY ?nb"
 
    	<section>
       <h3>Tests by Specifications</h3>
+
+        <section>
+            <h4>SPARQL 1.1 Protocol</h4>
+            <p>
+            <div id="sgvzl_example_query6"
+                 data-sgvizler-endpoint="http://134.158.74.247/test/query"
+                 data-sgvizler-query="PREFIX dawgt: &lt;http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#&gt;
+prefix earl: &lt;http://www.w3.org/ns/earl#&gt;
+prefix rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+prefix xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt;
+prefix mf:  &lt;http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#&gt;
+
+SELECT  ?Test  ?Approval
+(IF(?assertionCountJena &gt; 0 &amp;&amp; ?assertionCountJena = ?assertionCountKOJena ,&quot;Passed&quot;,&quot;&quot;) as ?Jena )
+(IF(?assertionCountBlazegraph &gt; 0 &amp;&amp; ?assertionCountBlazegraph = ?assertionCountKOBlazegraph ,&quot;Passed&quot;,&quot;&quot;) as ?Blazegraph )
+(IF(?assertionCountStardog &gt; 0 &amp;&amp; ?assertionCountStardog = ?assertionCountKOStardog ,&quot;Passed&quot;,&quot;&quot;) as ?Stardog )
+(IF(?assertionCountVirtuoso &gt; 0 &amp;&amp; ?assertionCountVirtuoso = ?assertionCountKOVirtuoso ,&quot;Passed&quot;,&quot;&quot;) as ?Virtuoso )
+
+WHERE {
+    SELECT DISTINCT ?testiri ?Test  ?Approval
+    (COUNT(?assertionJena) as ?assertionCountJena)
+    (COUNT(?outJena) as ?assertionCountKOJena)
+
+    (COUNT(?assertionBlazegraph) as ?assertionCountBlazegraph)
+    (COUNT(?outBlazegraph) as ?assertionCountKOBlazegraph)
+
+    (COUNT(?assertionStardog) as ?assertionCountStardog)
+    (COUNT(?outStardog) as ?assertionCountKOStardog)
+
+    (COUNT(?assertionVirtuoso) as ?assertionCountVirtuoso)
+    (COUNT(?outVirtuoso) as ?assertionCountKOVirtuoso)
+
+    WHERE
+    {
+          VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
+               (
+&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/413621870&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/413657744&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/413648307&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/413632299&gt;
+               )
+            }
+
+        GRAPH &lt;http://w3c.github.io/rdf-tests/sparql11/data-sparql11/&gt; {
+          VALUES (?nb ?categoryIRI)  {
+               ( 1 &lt;http://www.w3.org/TR/sparql11-protocol/&gt; )
+            }
+
+          ?categoryIRI rdfs:label ?Specification ;
+                         mf:conformanceRequirement ?list.
+          ?list rdf:rest*/rdf:first ?ttlTests .
+          ?ttlTests mf:entries ?entries .
+          ?entries rdf:rest*/rdf:first ?testiri.
+
+                ?testiri mf:name        ?Test ;
+                     dawgt:approval ?approvaliri .
+
+              BIND( IF(?approvaliri = dawgt:Approved , &quot;Approved&quot;, &quot;&quot;) as ?Approval)
+        }
+        GRAPH ?gJena {
+            ?assertionJena a earl:Assertion.
+            ?assertionJena earl:test ?testiri.
+            OPTIONAL{
+            ?assertionJena earl:result ?resultJena.
+            ?resultJena earl:outcome ?outJena .
+            FILTER ( ?outJena = earl:passed)
+            }
+        }
+        GRAPH ?gBlazegraph {
+            ?assertionBlazegraph a earl:Assertion.
+            ?assertionBlazegraph earl:test ?testiri.
+            OPTIONAL{
+            ?assertionBlazegraph earl:result ?resultBlazegraph.
+            ?resultBlazegraph earl:outcome ?outBlazegraph .
+            FILTER ( ?outBlazegraph = earl:passed)
+            }
+        }
+        GRAPH ?gStardog {
+            ?assertionStardog a earl:Assertion.
+            ?assertionStardog earl:test ?testiri.
+            OPTIONAL{
+            ?assertionStardog earl:result ?resultStardog.
+            ?resultStardog earl:outcome ?outStardog .
+            FILTER ( ?outStardog = earl:passed)
+            }
+        }
+        GRAPH ?gVirtuoso {
+            ?assertionVirtuoso a earl:Assertion.
+            ?assertionVirtuoso earl:test ?testiri.
+            OPTIONAL{
+            ?assertionVirtuoso earl:result ?resultVirtuoso.
+            ?resultVirtuoso earl:outcome ?outVirtuoso .
+            FILTER ( ?outVirtuoso = earl:passed)
+            }
+        }
+    }
+    GROUP BY ?testiri ?Test  ?Approval
+    ORDER BY ?Test
+}
+"
+                 data-sgvizler-chart='sgvizler.visualization.Table'
+                 data-sgvizler-chart-options=''
+                 data-sgvizler-endpoint_output_format='json'
+                 data-sgvizler-log='2'
+                 style='width:100%;'  ></div>
+            </p>
+        </section>
+
+
       			<section>
 				<h4>SPARQL 1.1 Query Language</h4>
                     <div id="sgvzl_example_query1"
@@ -1772,39 +1883,14 @@ WHERE {
                      data-sgvizler-log='2'
                      style='width:100%;'  ></div>
 			</section>
+
 			<section>
 				<h4>SPARQL 1.1 Service Description</h4>
 				<p>
-
+There are not tests.
 				</p>
-
-                <div class="issue" >
-                    <div role="heading" class="issue-title marker" id="h-issue" aria-level="3">
-                        <span>TODO  </span><span style="text-transform: none"></span>
-                    </div>
-                    <div class="">
-                        <p>
-                            Example :  http://w3c.github.io/rdf-tests/sparql11/reports/
-                        </p>
-                    </div>
-                </div>
 			</section>
-			<section>
-				<h4>SPARQL 1.1 Protocol</h4>
-				<p>
 
-				</p>
-
-				<div class="issue" >
-				<div role="heading" class="issue-title marker" id="h-issue" aria-level="3">
-					<span>TODO  </span><span style="text-transform: none"></span>
-				</div>
-				<div class="">
-				  <p>
-				  Example :  http://w3c.github.io/rdf-tests/sparql11/reports/
-				  </p>
-				</div>
-			</section>
 			<section>
 				<h4>SPARQL 1.1 Graph Store HTTP Protocol</h4>
 				<p>
@@ -1842,7 +1928,7 @@ WHERE {
             src='https://www.w3.org/Tools/respec/respec-w3c-common'
             class='remove'></script>
     <script>
-        alert("To display this page correctly, you must allow your browser to load unsafe scripts.");
+       // alert("To display this page correctly, you must allow your browser to load unsafe scripts.");
     </script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
