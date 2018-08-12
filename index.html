@@ -784,7 +784,14 @@ script:
 
   -   git clone --recursive https://github.com/BorderCloud/TFT.git
   -   cd TFT
+# install SPARQL client
   -   composer install
+# install JMeter
+  - wget http://mirrors.standaloneinstaller.com/apache//jmeter/binaries/apache-jmeter-4.0.tgz
+  - tar xzf apache-jmeter-4.0.tgz
+  - mv  apache-jmeter-4.0 jmeter
+  - rm apache-jmeter-4.0.tgz
+
   -   php ./tft-testsuite -a -t fuseki -q http://${SPARQLSCORE_DATABASE}/test/query -u http://${SPARQLSCORE_DATABASE}/test/update
   -   php ./tft -t fuseki -q http://${SPARQLSCORE_DATABASE}/test/query -u http://${SPARQLSCORE_DATABASE}/test/update -tt fuseki -tq http://172.17.0.2/blazegraph/namespace/test/sparql/ -tu http://172.17.0.2/blazegraph/namespace/test/sparql/ -r ${URI} -o ./junit --softwareName="${NAME}" --softwareDescribeTag=${VERSION}  --softwareDescribe="${TRAVIS_COMMIT}"
   -   php ./tft-score -t fuseki -q http://${SPARQLSCORE_DATABASE}/test/query -u http://${SPARQLSCORE_DATABASE}/test/update -r  ${URI}
