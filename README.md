@@ -1,1 +1,1 @@
-# [SPARQL Core 1.1 (Draft, in construction)](https://bordercloud.github.io/tft-reports/)
+# [SPARQL Core 1.1 (Draft, in construction)](http://tft-reports.bordercloud.com)
