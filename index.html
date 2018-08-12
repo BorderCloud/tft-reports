@@ -699,6 +699,10 @@ git clone --recursive https://github.com/BorderCloud/TFT.git
 cd TFT
 # Install the SPARQL client of TFT
 composer install
+wget http://mirrors.standaloneinstaller.com/apache//jmeter/binaries/apache-jmeter-4.0.tgz
+tar xvzf apache-jmeter-4.0.tgz
+mv  apache-jmeter-4.0 jmeter
+rm apache-jmeter-4.0.tgz
 
 # (5) Load all the tests
 php ./tft-testsuite -a -t fuseki -q http://172.17.0.6/test/query \
@@ -861,23 +865,23 @@ WHERE {
     {
           VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
                (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/413621870&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/413657744&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/413648307&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/413632299&gt;
+&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
                )
             }
 
         GRAPH &lt;http://w3c.github.io/rdf-tests/sparql11/data-sparql11/&gt; {
           VALUES (?nb ?categoryIRI)  {
-               ( 1 &lt;http://www.w3.org/TR/sparql11-query/&gt; )
-               ( 2 &lt;http://www.w3.org/TR/sparql11-update/&gt;)
-               ( 3 &lt;http://www.w3.org/TR/sparql11-results-csv-tsv/&gt; )
-               ( 4 &lt;http://www.w3.org/TR/sparql11-results-json/&gt;)
-               ( 5 &lt;http://www.w3.org/TR/sparql11-federated-query/&gt;)
-               ( 6 &lt;http://www.w3.org/TR/sparql11-entailment/&gt; )
-               ( 7 &lt;http://www.w3.org/TR/sparql11-service-description/&gt;)
-               ( 8 &lt;http://www.w3.org/TR/sparql11-protocol/&gt;)
+           ( 1 &lt;http://www.w3.org/TR/sparql11-protocol/&gt; )
+           ( 2 &lt;http://www.w3.org/TR/sparql11-query/&gt; )
+           ( 3 &lt;http://www.w3.org/TR/sparql11-update/&gt;)
+           ( 4 &lt;http://www.w3.org/TR/sparql11-results-csv-tsv/&gt; )
+           ( 5 &lt;http://www.w3.org/TR/sparql11-results-json/&gt;)
+           ( 6 &lt;http://www.w3.org/TR/sparql11-federated-query/&gt;)
+           ( 7 &lt;http://www.w3.org/TR/sparql11-entailment/&gt; )
+           ( 8 &lt;http://www.w3.org/TR/sparql11-service-description/&gt;)
             }
 
           ?categoryIRI rdfs:label ?Specification ;
@@ -963,10 +967,10 @@ WHERE
 {
       VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
            (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/413621870&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/413657744&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/413648307&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/413632299&gt;
+&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
            )
         }
 
@@ -1158,10 +1162,10 @@ WHERE {
     {
           VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
                (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/413621870&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/413657744&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/413648307&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/413632299&gt;
+&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
                )
             }
 
@@ -1266,10 +1270,10 @@ WHERE {
     {
           VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
                (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/413621870&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/413657744&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/413648307&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/413632299&gt;
+&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
                )
             }
 
@@ -1376,10 +1380,10 @@ WHERE {
     {
           VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
                (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/413621870&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/413657744&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/413648307&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/413632299&gt;
+&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
                )
             }
 
@@ -1484,10 +1488,10 @@ WHERE {
     {
           VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
                (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/413621870&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/413657744&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/413648307&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/413632299&gt;
+&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
                )
             }
 
@@ -1595,10 +1599,10 @@ WHERE {
     {
           VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
                (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/413621870&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/413657744&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/413648307&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/413632299&gt;
+&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
                )
             }
 
@@ -1704,10 +1708,10 @@ WHERE {
     {
           VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
                (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/413621870&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/413657744&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/413648307&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/413632299&gt;
+&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
                )
             }
 
@@ -1780,7 +1784,7 @@ WHERE {
 
 				</p>
 
-                <div id="sgvzl_example_query6"
+                <div id="sgvzl_example_query7"
                      data-sgvizler-endpoint="http://134.158.74.247/test/query"
                      data-sgvizler-query="PREFIX dawgt: &lt;http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#&gt;
 prefix earl: &lt;http://www.w3.org/ns/earl#&gt;
@@ -1813,10 +1817,10 @@ WHERE {
     {
           VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
                (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/413621870&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/413657744&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/413648307&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/413632299&gt;
+&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
+               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
                )
             }
 
@@ -1887,26 +1891,8 @@ WHERE {
 			<section>
 				<h4>SPARQL 1.1 Service Description</h4>
 				<p>
-There are not tests.
+There are not tests. todo ?
 				</p>
-			</section>
-
-			<section>
-				<h4>SPARQL 1.1 Graph Store HTTP Protocol</h4>
-				<p>
-
-				</p>
-
-                <div class="issue" >
-                    <div role="heading" class="issue-title marker" id="h-issue" aria-level="3">
-                        <span>TODO  </span><span style="text-transform: none"></span>
-                    </div>
-                    <div class="">
-                        <p>
-                            Example :  http://w3c.github.io/rdf-tests/sparql11/reports/
-                        </p>
-                    </div>
-                </div>
 			</section>
 		</section>
 	</section>
