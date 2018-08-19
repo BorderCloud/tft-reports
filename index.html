@@ -705,14 +705,13 @@ mv  apache-jmeter-4.0 jmeter
 rm apache-jmeter-4.0.tgz
 
 # (5) Load all the tests
-php ./tft-testsuite -a -t fuseki -q http://172.17.0.6/test/query \
-                    -u http://172.17.0.6/test/update
+php ./tft-testsuite -a -t fuseki -q http://172.17.0.6:8080/test/query \
+                    -u http://172.17.0.6:8080/test/update
 
 # (6) Execute these tests
-php ./tft -t fuseki -q http://172.17.0.6/test/query \
-                    -u http://172.17.0.6/test/update \
-          -tt fuseki -tq http://172.17.0.2/blazegraph/namespace/test/sparql/ \
-                     -tu http://172.17.0.2/blazegraph/namespace/test/sparql/ \
+php ./tft -t fuseki -q http://172.17.0.6:8080/test/query \
+                    -u http://172.17.0.6:8080/test/update \
+          -tt fuseki -te http://172.17.0.2/blazegraph/namespace/test/sparql \
           -r http://example.org/buildid   \
           -o ./junit  \
           --softwareName="Jena" \
@@ -720,8 +719,8 @@ php ./tft -t fuseki -q http://172.17.0.6/test/query \
           --softwareDescribe="Name"
 
 # (7) Calculate a score/indicator of interoperability
-php ./tft-score -t fuseki -q http://172.17.0.6/test/query \
-                          -u http://172.17.0.6/test/update \
+php ./tft-score -t fuseki -q http://172.17.0.6:8080/test/query \
+                          -u http://172.17.0.6:8080/test/update \
                 -r  http://example.org/buildid
     </pre>
     </section>
@@ -745,7 +744,7 @@ env:
     - NAME="Blazegraph"
     - VERSION="v2.2.0"
 #    - SPARQLSCORE_DATABASE="134.158.74.247"
-    - SPARQLSCORE_DATABASE="172.17.0.6" #local
+    - SPARQLSCORE_DATABASE="172.17.0.6:8080" #local
 
 language: php
 php:
@@ -793,7 +792,7 @@ script:
   - rm apache-jmeter-4.0.tgz
 
   -   php ./tft-testsuite -a -t fuseki -q http://${SPARQLSCORE_DATABASE}/test/query -u http://${SPARQLSCORE_DATABASE}/test/update
-  -   php ./tft -t fuseki -q http://${SPARQLSCORE_DATABASE}/test/query -u http://${SPARQLSCORE_DATABASE}/test/update -tt fuseki -tq http://172.17.0.2/blazegraph/namespace/test/sparql/ -tu http://172.17.0.2/blazegraph/namespace/test/sparql/ -r ${URI} -o ./junit --softwareName="${NAME}" --softwareDescribeTag=${VERSION}  --softwareDescribe="${TRAVIS_COMMIT}"
+  -   php ./tft -t fuseki -q http://${SPARQLSCORE_DATABASE}/test/query -u http://${SPARQLSCORE_DATABASE}/test/update -tt fuseki -te http://172.17.0.2/blazegraph/namespace/test/sparql -r ${URI} -o ./junit --softwareName="${NAME}" --softwareDescribeTag=${VERSION}  --softwareDescribe="${TRAVIS_COMMIT}"
   -   php ./tft-score -t fuseki -q http://${SPARQLSCORE_DATABASE}/test/query -u http://${SPARQLSCORE_DATABASE}/test/update -r  ${URI}
 
 after_success:
@@ -872,10 +871,14 @@ WHERE {
     {
           VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
                (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
+
+
+                &lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/417736469&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/417741277&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/417745179&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/417725976&gt;
+
+
                )
             }
 
@@ -974,10 +977,10 @@ WHERE
 {
       VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
            (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/417736469&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/417741277&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/417745179&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/417725976&gt;
            )
         }
 
@@ -1169,10 +1172,10 @@ WHERE {
     {
           VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
                (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/417736469&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/417741277&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/417745179&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/417725976&gt;
                )
             }
 
@@ -1277,10 +1280,10 @@ WHERE {
     {
           VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
                (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/417736469&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/417741277&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/417745179&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/417725976&gt;
                )
             }
 
@@ -1387,10 +1390,10 @@ WHERE {
     {
           VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
                (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/417736469&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/417741277&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/417745179&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/417725976&gt;
                )
             }
 
@@ -1495,10 +1498,10 @@ WHERE {
     {
           VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
                (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/417736469&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/417741277&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/417745179&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/417725976&gt;
                )
             }
 
@@ -1606,10 +1609,10 @@ WHERE {
     {
           VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
                (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/417736469&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/417741277&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/417745179&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/417725976&gt;
                )
             }
 
@@ -1715,10 +1718,10 @@ WHERE {
     {
           VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
                (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/417736469&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/417741277&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/417745179&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/417725976&gt;
                )
             }
 
@@ -1824,10 +1827,10 @@ WHERE {
     {
           VALUES (?gJena ?gBlazegraph ?gStardog ?gVirtuoso)  {
                (
-&lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/415123555&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/415141056&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/415135266&gt;
-               &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/415120387&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-jena-fuseki/builds/417736469&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-blazegraph/builds/417741277&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-stardog/builds/417745179&gt;
+                &lt;https://travis-ci.org/BorderCloud/tft-virtuoso7-stable/builds/417725976&gt;
                )
             }
 
