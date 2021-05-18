@@ -2,16 +2,19 @@
 # yarn lockfile v1
 
 
-jquery@^3.2.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
+jquery@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.0.tgz#c72a09f15c1bdce142f49dbf1170bdf8adac2470"
+  integrity sha512-JVzAR/AjBvVt2BmYhxRCSYysDsPcssdmTFnzyLEts9qNwmjmu4JTAMYubEfwVOSwpQ1I1sKKFcxhZCI2buerfw==
 
-sgvizler2@^0.0.17:
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/sgvizler2/-/sgvizler2-0.0.17.tgz#a34c4106e6855b84a6d81261dc9dcd7160211011"
+sgvizler2@^1:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/sgvizler2/-/sgvizler2-1.7.0.tgz#2fd426debffc1224829220c3557df36b7f99a97d"
+  integrity sha512-IYINqgDaC+oPiX0UhmdULhMiyXkIk5hEAPYBLFJcw35Md55bDxFZQvB4MK79ef5UeSGmBLH7uZvE6jp5C7OGJw==
   dependencies:
-    tslib "^1.7.1"
+    tslib "^2.0.0"
 
-tslib@^1.7.1:
-  version "1.9.3"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
+tslib@^2.0.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.2.0.tgz#fb2c475977e35e241311ede2693cee1ec6698f5c"
+  integrity sha512-gS9GVHRU+RGn5KQM2rllAlR3dU6m7AcpJKdtH8gFvQiC4Otgk98XnmMU+nZenHt/+VhnBPWwgrJsyrdcw6i23w==

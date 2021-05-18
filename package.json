@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "jquery": "^3.2.1",
-    "sgvizler2": "^0.0.17"
+    "jquery": "^3.6.0",
+    "sgvizler2": "^1"
   }
 }
