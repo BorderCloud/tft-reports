@@ -182,8 +182,83 @@ php ./tft-score -t fuseki -q http://172.17.0.6:8080/test/query \
     </section>
 
     <section>
-        <h5>How to run the Test Cases in GitHub via Travis CI</h5>
+        <h5>How to run the Test Cases in GitHub</h5>
 
+        <section>
+            <h6>GitHub Actions</h6>
+        With this file, your can execute manually the Test Cases directly in GitHub.
+            
+        https://github.com/BorderCloud/tft-jena-fuseki/blob/master/.github/workflows/test.yml
+        <pre>
+name: Test
+
+on: workflow_dispatch
+
+env:
+    NAME: "Jena Fuseki"
+    SOFTWARE_DESCRIBE: "Apache Jena Fuseki is a RDF storage with a SPARQL server"
+    VERSION: "4.1.0"
+    SPARQLSCORE_DATABASE: "134.158.74.239"
+#   SPARQLSCORE_DATABASE= "172.18.0.6:8080" #local
+    URI: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}       
+    COMMIT: ${{github.sha}}
+    
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+            php-version: '7.4'
+            tools: composer
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+            distribution: 'adopt'
+            java-version: '8'
+      - name: Build image docker
+        run: >-
+            docker build -t tft-jena-fuseki .
+      - name: Start servers
+        run:  |
+            sudo docker-compose up -d
+            sleep 30s
+      - name: Setup TFT with Jmeter
+        run: |
+            git clone --recursive https://github.com/BorderCloud/TFT.git
+            cd ./TFT
+            composer install
+            wget http://mirrors.standaloneinstaller.com/apache//jmeter/binaries/apache-jmeter-5.4.1.tgz
+            tar xvzf apache-jmeter-5.4.1.tgz
+            mv  apache-jmeter-5.4.1 jmeter
+            rm apache-jmeter-5.4.1.tgz
+            php -version
+      - name: Import tests
+        run: |
+            cd ./TFT
+            php ./tft-testsuite -a -t fuseki -q http://${SPARQLSCORE_DATABASE}/test/query -u http://${SPARQLSCORE_DATABASE}/test/update
+      - name: Execute tests
+        run: |
+            cd ./TFT
+            php ./tft -t fuseki -q http://${SPARQLSCORE_DATABASE}/test/query -u http://${SPARQLSCORE_DATABASE}/test/update -tt fuseki -te http://172.18.0.2/sparql -r ${URI} -o ./junit --softwareName="${NAME}"  --softwareDescribeTag=${VERSION}  --softwareDescribe="${COMMIT}"
+      - name: Read result
+        run: |
+            cd ./TFT
+            php ./tft-score -t fuseki -q http://${SPARQLSCORE_DATABASE}/test/query -u http://${SPARQLSCORE_DATABASE}/test/update -r  ${URI}
+      - name: Stop servers
+        run:  |
+          docker-compose stop
+        </pre>
+        </section>
+        
+        
+        <section>
+            <h6>Travis CI</h6>
+            It's also possible to use the cloud of Travis CI.
+            
         https://github.com/BorderCloud/tft-jena-fuseki/blob/master/.travis.yml
         <pre>
 sudo: required
@@ -246,6 +321,7 @@ after_success:
      docker push bordercloud/tft-jena-fuseki ;
      fi
         </pre>
+        </section>
     </section>
 
     <section>
